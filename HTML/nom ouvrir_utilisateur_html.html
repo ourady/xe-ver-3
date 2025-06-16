@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz and User Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #0779e4 3px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 16px;
+        }
+        nav {
+            float: right;
+            margin-top: 10px;
+        }
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        nav ul li {
+            display: inline;
+            margin-left: 5px;
+        }
+        .main {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+        }
+        .tab {
+            display: none;
+        }
+        .tab.active {
+            display: block;
+        }
+        .tab-buttons {
+            margin-bottom: 20px;
+        }
+        .tab-buttons button {
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        .tab-buttons button.active {
+            background: #0779e4;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group button {
+            background: #0779e4;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background: #0056b3;
+        }
+        .user-list, .quiz-list {
+            margin-top: 20px;
+        }
+        .user-list ul, .quiz-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        .user-list ul li, .quiz-list ul li {
+            background: #f4f4f4;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Quiz and User Management</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showTab('user-management')">User Management</a></li>
+                    <li><a href="#" onclick="showTab('quiz-management')">Quiz Management</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container main">
+        <div class="tab-buttons">
+            <button onclick="showTab('user-management')" class="active">User Management</button>
+            <button onclick="showTab('quiz-management')">Quiz Management</button>
+        </div>
+        <div id="user-management" class="tab active">
+            <h2>User Management</h2>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select id="role" name="role">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button onclick="addUser()">Add User</button>
+            </div>
+            <div class="user-list">
+                <h3>Users:</h3>
+                <ul id="user-list"></ul>
+            </div>
+        </div>
+        <div id="quiz-management" class="tab">
+            <h2>Quiz Management</h2>
+            <div class="form-group">
+                <label for="quiz-title">Quiz Title:</label>
+                <input type="text" id="quiz-title" name="quiz-title">
+            </div>
+            <div class="form-group">
+                <label for="quiz-content">Quiz Content:</label>
+                <textarea id="quiz-content" name="quiz-content" rows="5"></textarea>
+            </div>
+            <div class="form-group">
+                <button onclick="addQuiz()">Add Quiz</button>
+            </div>
+            <div class="quiz-list">
+                <h3>Quizzes:</h3>
+                <ul id="quiz-list"></ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showTab(tabId) {
+            var tabs = document.querySelectorAll('.tab');
+            var buttons = document.querySelectorAll('.tab-buttons button');
+            tabs.forEach(function(tab) {
+                tab.classList.remove('active');
+            });
+            buttons.forEach(function(button) {
+                button.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector('.tab-buttons button[onclick="showTab('' + tabId + '')"]').classList.add('active');
+        }
+
+        function addUser() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            var role = document.getElementById('role').value;
+            var userList = document.getElementById('user-list');
+
+            var li = document.createElement('li');
+            li.textContent = 'Username: ' + username + ', Role: ' + role;
+            userList.appendChild(li);
+
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('role').value = 'user';
+        }
+
+        function addQuiz() {
+            var quizTitle = document.getElementById('quiz-title').value;
+            var quizContent = document.getElementById('quiz-content').value;
+            var quizList = document.getElementById('quiz-list');
+
+            var li = document.createElement('li');
+            li.textContent = 'Title: ' + quizTitle + ', Content: ' + quizContent;
+            quizList.appendChild(li);
+
+            document.getElementById('quiz-title').value = '';
+            document.getElementById('quiz-content').value = '';
+        }
+    </script>
+</body>
+</html>

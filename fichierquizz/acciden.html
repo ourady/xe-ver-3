@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz H5P</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Mon Quiz</h1>
+    <p>Que signifie chaque lettre ?</p>
+    <p>P : <input type="text" id="inputP"></p>
+    <p>A : <input type="text" id="inputA"></p>
+    <p>S : <input type="text" id="inputS"></p>
+    <button onclick="verifyAnswers()">Vérifier</button>
+
+    <script>
+        function verifyAnswers() {
+            var p = document.getElementById('inputP').value;
+            var a = document.getElementById('inputA').value;
+            var s = document.getElementById('inputS').value;
+
+            // Simulate score calculation
+            var score = 0;
+            if (p.toLowerCase() === 'expected_answer_p') score += 1;
+            if (a.toLowerCase() === 'expected_answer_a') score += 1;
+            if (s.toLowerCase() === 'expected_answer_s') score += 1;
+
+            // Send score to Flask server
+            $.post("http://localhost:5000/submit_score", {
+                utilisateur_id: 1,
+                score: score
+            }, function(response) {
+                alert(response.message);
+            });
+        }
+    </script>
+</body>
+</html>
