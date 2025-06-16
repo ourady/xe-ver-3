@@ -1,4 +1,3 @@
-
 import os
 import tkinter as tk
 from tkinter import ttk, filedialog, simpledialog
@@ -6,7 +5,6 @@ import webbrowser
 import json
 import threading
 from flask import Flask, request, jsonify
-import requests
 
 class QuizApp(tk.Frame):
     def __init__(self, parent, quiz_folder="fichierquizz"):
@@ -101,6 +99,7 @@ class QuizLoader:
             self.envoyer_score(filename, "user1", 100)
 
     def envoyer_score(self, quiz_name, user, score):
+        import requests
         try:
             response = requests.post('http://127.0.0.1:5000/submit_score', json={
                 'quiz_name': quiz_name,
@@ -152,3 +151,4 @@ if __name__ == '__main__':
     root.title("Gestionnaire de Quiz")
     app = QuizApp(root)
     root.mainloop()
+
