@@ -27,8 +27,7 @@ def verifier_identifiants(nom_utilisateur, mot_de_passe):
 # Interface Streamlit
 def afficher_connexion():
     st.title("Connexion utilisateur")
-    st.write("Répertoire courant :", os.getcwd())
-    st.write("Fichiers présents :", os.listdir())
+
 
     nom_utilisateur = st.text_input("Nom d'utilisateur")
     mot_de_passe = st.text_input("Mot de passe", type="password")

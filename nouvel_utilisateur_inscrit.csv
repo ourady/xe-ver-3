@@ -1,0 +1,12 @@
+import csv
+
+# Create a new CSV file named 'nouvel_utilisateur_inscrit.csv'
+with open('nouvel_utilisateur_inscrit.csv', mode='w', newline='') as file:
+    writer = csv.writer(file)
+    # Write the header
+    writer.writerow(['nom_utilisateur', 'mot_de_passe'])
+
+print("Le fichier 'nouvel_utilisateur_inscrit.csv' a été créé avec succès.")
+
+baba,957786aa6e63ff7a0566d508a82f156a8e1eaaa6bab3bb6fec01d5414b1992f0
+rudy,3dcf90c73db8ae29fc101fddc818014dd7b1fb06777d9e5e8313a6b44ca865d2

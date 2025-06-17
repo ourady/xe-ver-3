@@ -258,5 +258,10 @@
         "quiz_name": "acciden",
         "user": "alice",
         "score": ""
+    },
+    {
+        "quiz_name": "acciden",
+        "user": "bob",
+        "score": ""
     }
 ]

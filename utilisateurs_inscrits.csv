@@ -1,1 +1,54 @@
-nom_utilisateur,mot_de_passe
+import csv
+import hashlib
+import streamlit as st
+
+# Renommer le fichier utilisateurs_inscrits.csv en nouvel_utilisateur_inscrit.csv
+import os
+
+if os.path.exists('utilisateurs_inscrits.csv'):
+    os.rename('utilisateurs_inscrits.csv', 'nouvel_utilisateur_inscrit.csv')
+
+# Fonction pour hacher le mot de passe
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+# Fonction pour vérifier si l'utilisateur est dans utilisateurs.csv
+def utilisateur_existe(nom_utilisateur):
+    with open('utilisateurs.csv', mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row['nom_utilisateur'] == nom_utilisateur:
+                return True
+    return False
+
+# Fonction pour vérifier si l'utilisateur est déjà inscrit dans nouvel_utilisateur_inscrit.csv
+def utilisateur_deja_inscrit(nom_utilisateur):
+    with open('nouvel_utilisateur_inscrit.csv', mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            if row['nom_utilisateur'] == nom_utilisateur:
+                return True
+    return False
+
+# Fonction pour inscrire un nouvel utilisateur
+def inscrire_utilisateur(nom_utilisateur, mot_de_passe):
+    with open('nouvel_utilisateur_inscrit.csv', mode='a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow([nom_utilisateur, hash_password(mot_de_passe)])
+
+# Interface Streamlit
+st.title("Inscription Utilisateur")
+
+nom_utilisateur = st.text_input("Nom d'utilisateur")
+mot_de_passe = st.text_input("Mot de passe", type="password")
+
+if st.button("S'inscrire"):
+    if utilisateur_existe(nom_utilisateur):
+        if not utilisateur_deja_inscrit(nom_utilisateur):
+            inscrire_utilisateur(nom_utilisateur, mot_de_passe)
+            st.success("Inscription réussie !")
+        else:
+            st.error("Utilisateur déjà inscrit.")
+    else:
+        st.error("Utilisateur non trouvé dans utilisateurs.csv.")
+
